@@ -1,0 +1,15 @@
+venv
+
+__pycache__/
+*/__pycache__/
+*.py[cod]
+.pyc
+*.pyc
+
+.idea
+
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
+
+log/debug.log
