@@ -1,3 +1,6 @@
+from pydantic import BaseModel
+
+
 class AccessType(BaseModel):
     id:int
     type:str

@@ -32,6 +32,10 @@ def update_counter_agent(counter_agent_id:int, counter_agent:CounterAgent, db: S
     update_to_counter_agent.address = counter_agent.address
     update_to_counter_agent.type = counter_agent.type
 
+    db.commit()
+
+    return update_to_counter_agent
+
 
 @counter_agent_router.delete('/delete/{counter_agent_id}',response_model=CounterAgent)
 def delete_counter_agent(counter_agent_id:int, db: Session = Depends(get_session)):
