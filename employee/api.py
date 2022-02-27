@@ -1,10 +1,10 @@
-import models
+from . import models
 from fastapi import Depends,APIRouter
-from schemas import Employee
-from main import get_session
+from .schemas import Employee
+from dbsession import get_session
 from sqlalchemy.orm import Session
 
-employee_router = APIRouter(prefix='/followers', tags=['followers'])
+employee_router = APIRouter(prefix='/employee', tags=['employee'])
 
 @employee_router.get('/employees')
 def get_employees(db: Session = Depends(get_session)):
@@ -17,7 +17,6 @@ def get_employees(db: Session = Depends(get_session)):
 def update_employee(employee_id:int,employee:Employee , db: Session = Depends(get_session)):
     employee_to_update = db.query(models.Employee).filter(models.Employee.id==employee_id).first()
     employee_to_update.name = employee.name
-    employee_to_update.warehouse = employee.warehouse
     employee_to_update.iin = employee.iin
     employee_to_update.post = employee.post
 

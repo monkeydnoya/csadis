@@ -1,11 +1,10 @@
-from msilib.schema import AppId
-import models
+from . import models
 from fastapi import APIRouter,Depends
-from schemas import AccessType
-from main import get_session
+from .schemas import AccessType
+from dbsession import get_session
 from sqlalchemy.orm import Session
 
-accesstype_router = APIRouter(prefix='/access-type', tags='access-type')
+accesstype_router = APIRouter(prefix='/access-type', tags=['access-type'])
 
 
 @accesstype_router.get('/')

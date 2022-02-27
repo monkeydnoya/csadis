@@ -5,8 +5,8 @@ from sqlalchemy import Column,Integer,String,ForeignKey
 class Employee(Base):
     __tablename__ = 'employee'
     id = Column(Integer,primary_key=True,unique=True)
-    name = Column(String(255), nullable=False)
-    warehouse = Column(String, ForeignKey('counter_agent.name'),unique=True)
+    name = Column(String(255), nullable=False,unique=True)
+    # warehouse = Column(Integer, ForeignKey('counter_agent.id'),unique=True)
     iin = Column(Integer)
     post = Column(String)
 

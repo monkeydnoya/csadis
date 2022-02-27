@@ -1,7 +1,7 @@
-import models
+from . import models
 from fastapi import APIRouter, Depends
-from schemas import CounterAgent
-from main import get_session
+from .schemas import CounterAgent
+from dbsession import get_session
 from sqlalchemy.orm import Session
 
 
@@ -17,7 +17,7 @@ def get_counter_agents(db: Session = Depends(get_session)):
 
 @counter_agent_router.post('/create', response_model=CounterAgent)
 def create_counter_agent(counter_agent:CounterAgent, db: Session = Depends(get_session)):
-    counter_agent_create = models.CounterAgent(counter_agent.dict())
+    counter_agent_create = models.CounterAgent(**counter_agent.dict())
 
     db.add(counter_agent_create)
     db.commit()

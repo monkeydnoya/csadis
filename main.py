@@ -1,10 +1,9 @@
-from typing import Counter
-import models
-from fastapi import Depends, FastAPI
-from schemas import Employee, CounterAgent
+from fastapi import FastAPI
 from database import SessionLocal
-from sqlalchemy.orm import Session
 from employee.api import employee_router
+from counteragent.api import counter_agent_router
+from access.api import access_router
+from accesstype.api import accesstype_router
 
 
 app = FastAPI()
@@ -18,4 +17,8 @@ def get_session():
         db.close()
 
 
-app.
+app.include_router(employee_router)
+app.include_router(counter_agent_router)
+app.include_router(access_router)
+app.include_router(accesstype_router)
+

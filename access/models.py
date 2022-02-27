@@ -1,9 +1,11 @@
 from database import Base
 from sqlalchemy import Column, ForeignKey, String, Integer
+# from sqlalchemy.orm import relationship
+from employee.models import *
 
 
 class Access(Base):
     __tablename__ = 'accesstable' # mb foreign key
-    warehouse = Column(String, ForeignKey('employee.warehouse'), primary_key=True)
+    warehouse = Column(Integer, ForeignKey('counter_agent.id'),primary_key=True)
     access_type = Column(Integer, ForeignKey('access_type.id'))
-    employee = Column(Integer, ForeignKey('employee.id'))
+    employee = Column(String, ForeignKey('employee.name', onupdate=CASCADE))
