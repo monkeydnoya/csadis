@@ -16,7 +16,7 @@ def get_invoice(db: Session = Depends(get_session)):
 
 
 @invoice_router.post('/create', response_model=Invoice)
-def create_invoice(invoice: Invoice, db: Session = Depends(get_session))):
+def create_invoice(invoice: Invoice, db: Session = Depends(get_session)):
     invoice_to_create = models.Invoice(**invoice.dict())
 
     db.add(invoice_to_create)
