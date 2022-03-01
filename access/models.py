@@ -8,4 +8,4 @@ class Access(Base):
     __tablename__ = 'accesstable' # mb foreign key
     warehouse = Column(Integer, ForeignKey('counter_agent.id'),primary_key=True)
     access_type = Column(Integer, ForeignKey('access_type.id'))
-    employee = Column(String, ForeignKey('employee.name', onupdate=CASCADE))
+    employee = Column(String, ForeignKey('employee.name', onupdate='cascade'))

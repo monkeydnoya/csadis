@@ -10,7 +10,7 @@ class Invoice(BaseModel):
     status: str
     type: str
     description: str
-    item: str
+    item: int
     count: int
 
     class Config:
