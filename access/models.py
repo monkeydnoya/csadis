@@ -6,6 +6,6 @@ from employee.models import *
 
 class Access(Base):
     __tablename__ = 'accesstable' # mb foreign key
-    warehouse = Column(Integer, ForeignKey('counter_agent.id'),primary_key=True)
+    warehouse = Column(Integer, ForeignKey('counter_agent.id', onupdate='cascade', ondelete='cascade'),primary_key=True)
     access_type = Column(Integer, ForeignKey('access_type.id'))
-    employee = Column(String, ForeignKey('employee.name', onupdate='cascade'))
+    employee = Column(String, ForeignKey('employee.name', onupdate='cascade', ondelete='cascade'))

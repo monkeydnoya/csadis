@@ -6,7 +6,7 @@ from database import Base
 class Reserve(Base):
     __tablename__ = 'reserve'
     id = Column(Integer,unique=True,autoincrement=True)
-    item = Column(Integer, ForeignKey('items.id'),primary_key=True, onupdate='cascade')
-    warehouse = Column(Integer, ForeignKey('counter_agent.id'), primary_key=True, onupdate='cascade')
+    item = Column(Integer, ForeignKey('items.id', ondelete='cascade', onupdate='cascade'),primary_key=True)
+    warehouse = Column(Integer, ForeignKey('counter_agent.id', ondelete='cascade', onupdate='cascade'), primary_key=True)
     count = Column(Integer)
 

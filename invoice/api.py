@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends
 from . import models
 from .schemas import Invoice
-from main import get_session
+from dbsession import get_session
 from sqlalchemy.orm import Session
 
 
-invoice_router = APIRouter(prefix=['/invoice'])
+invoice_router = APIRouter(prefix='/invoice')
 
 
 @invoice_router.get('/')

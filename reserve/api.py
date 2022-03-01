@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from . import models
-from schemas import Reserve
+from .schemas import Reserve
 from sqlalchemy.orm import Session
-from main import get_session
+from dbsession import get_session
 
 
 reserve_router = APIRouter(prefix='/reserve')
@@ -38,7 +38,7 @@ def update_reserve(reserve_id: int, reserve:Reserve, db: Session = Depends(get_s
     return reserve_to_update
 
 
-@reserve_router.delete('/delete/{reserve_id}', response_class=Reserve)
+@reserve_router.delete('/delete/{reserve_id}', response_model=Reserve)
 def delete_reserve(reserve_id:int, reserve:Reserve, db: Session = Depends(get_session)):
     reserve_to_delete = db.query(models.Reserve).filter(models.Reserve.id==reserve.id).first()
 

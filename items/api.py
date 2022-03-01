@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from . import models
-from schemas import Items
+from .schemas import Items
 from sqlalchemy.orm import Session
-from main import get_session
+from dbsession import get_session
 
 
 items_router = APIRouter(prefix='/items')

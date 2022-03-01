@@ -24,7 +24,7 @@ def create_access_type(access_type: AccessType, db: Session = Depends(get_sessio
     return access_type_to_create
 
 
-@accesstype_router.put('/update/{access_type_id}',response_class=AccessType)
+@accesstype_router.put('/update/{access_type_id}',response_model=AccessType)
 def update_access_type(access_type_id: int,access_type: AccessType , db: Session = Depends(get_session)):
     update_to_access_type = db.query(models.AccessType).filter(models.AccessType.id == access_type_id).first()
     update_to_access_type.type = access_type.type
@@ -35,7 +35,7 @@ def update_access_type(access_type_id: int,access_type: AccessType , db: Session
     return update_to_access_type
 
 
-@accesstype_router.delete('/delete/{access_type_id}', response_model=AccessType)
+@accesstype_router.delete('/delete/{access_type_id}',response_model=AccessType)
 def delete_access_type(access_type_id: int, db: Session = Depends(get_session)):
     access_type_to_delete = db.query(models.AccessType).filter(models.AccessType.id == access_type_id).first()
 

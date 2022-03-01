@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class Access(BaseModel):
-    warehouse:str
+    warehouse:int
     access_type:int
     employee:str
 
