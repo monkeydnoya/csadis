@@ -13,7 +13,7 @@ class Employee(Base):
     post = Column(String)
 
     invoice = relationship('Invoice')
-    counter_agent = relationship('CounterAgen', secondary='accesstable', back_populates='employee')
+    counter_agent = relationship('CounterAgent', secondary='accesstable', back_populates='employee')
 
     def __str__(self):
         return f'<Employee name: {self.name}, Post: {self.post}>'
