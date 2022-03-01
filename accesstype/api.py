@@ -1,5 +1,5 @@
+from fastapi import APIRouter, Depends
 from . import models
-from fastapi import APIRouter,Depends
 from .schemas import AccessType
 from dbsession import get_session
 from sqlalchemy.orm import Session

@@ -4,7 +4,7 @@ from pydantic import BaseModel
 class Employee(BaseModel):
     id:int
     name:str
-    # warehouse:int
+    warehouse:int
     iin:int 
     post:str
     # access:int # = Field(..., lt = 5, ge = 0, description='Access level: 0 - 5')
