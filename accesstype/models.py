@@ -1,5 +1,6 @@
 from database import Base
 from sqlalchemy import Column, String, Integer
+from sqlalchemy.orm import relationship
 
 
 class AccessType(Base):
@@ -7,3 +8,5 @@ class AccessType(Base):
     id = Column(Integer, primary_key=True)
     type = Column(String)
     description = Column(String)
+
+    access = relationship('Acess', back_populates='accesstype')

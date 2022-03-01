@@ -1,6 +1,7 @@
 from sre_constants import OP_UNICODE_IGNORE
 from database import Base
 from sqlalchemy import Column,Integer,String,ForeignKey
+from sqlalchemy.orm import relationship
 
 
 class Employee(Base):
@@ -10,6 +11,9 @@ class Employee(Base):
     warehouse = Column(Integer, ForeignKey('counter_agent.id', onupdate='cascade', ondelete='cascade'),unique=True)
     iin = Column(Integer)
     post = Column(String)
+
+    invoice = relationship('Invoice')
+    counter_agent = relationship('CounterAgen', secondary='accesstable', back_populates='employee')
 
     def __str__(self):
         return f'<Employee name: {self.name}, Post: {self.post}>'

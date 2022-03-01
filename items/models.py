@@ -1,3 +1,4 @@
+from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, ForeignKey, String, Float
 from database import Base
 
@@ -9,3 +10,5 @@ class Items(Base):
     price = Column(Float)
     currency = Column(String)
 
+    invoice = relationship('Invoice')
+    counter_agent = relationship('CounterAgent', secondary='reserve', back_populates='item')

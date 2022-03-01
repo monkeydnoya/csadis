@@ -11,5 +11,6 @@ class Invoice(Base):
     status = Column(String)
     type = Column(String)
     description = Column(String)
+    warehouse = Column(Integer, ForeignKey('counter_agent.id', ondelete='cascade', onupdate='cascade'))
     item = Column(Integer, ForeignKey('items.id', onupdate='cascade',ondelete='cascade'), primary_key=True)
     count = Column(Integer)
