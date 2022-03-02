@@ -1,7 +1,7 @@
 from database import Base,engine
 from employee.models import Employee
-from counteragent.models import CounterAgent
-from access.models import Access
+from warehouse.models import WareHouse
+from customer.models import Customer
 from accesstype.models import AccessType
 from invoice.models import Invoice
 

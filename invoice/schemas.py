@@ -8,8 +8,8 @@ class Invoice(BaseModel):
     date: datetime
     employee: int
     status: str
-    type: str
     description: str
+    warehouse: int
     item: int
     count: int
 

@@ -5,9 +5,9 @@ class Items(BaseModel):
     id: int
     name: str
     type: str
-    price: float
+    price: int
     currency: str
 
 
     class Config:
-        orm_mode: True
+        orm_mode = True

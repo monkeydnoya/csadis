@@ -9,4 +9,4 @@ class AccessType(Base):
     type = Column(String)
     description = Column(String)
 
-    access = relationship('Access', back_populates='accesstype')
+    employee = relationship('Employee')

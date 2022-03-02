@@ -1,10 +1,9 @@
 from pydantic import BaseModel
 
 
-class CounterAgent(BaseModel):
+class WareHouse(BaseModel):
     id:int
-    type:str
-    name:str
+    number:int
     address:str
 
     class Config:

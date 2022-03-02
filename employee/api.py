@@ -1,14 +1,30 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
+from fastapi.exceptions import HTTPException
 from . import models
-from .schemas import Employee
+from .schemas import Employee, LoginModel
 from dbsession import get_session
 from sqlalchemy.orm import Session
+from werkzeug.security import generate_password_hash, check_password_hash
+from fastapi_jwt_auth import AuthJWT
+from fastapi.encoders import jsonable_encoder
+
 
 employee_router = APIRouter(prefix='/employee', tags=['employee'])
 
-@employee_router.get('/employees')
-def get_employees(db: Session = Depends(get_session)):
-    employees = db.query(models.Employee).all()
+@employee_router.get('/')
+def get_employees(Authorize: AuthJWT = Depends(),db: Session = Depends(get_session)):
+    try:
+        Authorize.jwt_required()
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail='Invalid token')
+
+    current_user = Authorize.get_jwt_subject()
+    current_user_access = db.query(models.Employee).filter(models.Employee.email==current_user).first()
+    if current_user_access.post == 1:
+        employees = db.query(models.Employee).all()
+    
+    else:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail=f'Insufficient access level. Current access level: {current_user_access.post}')
 
     return employees
 
@@ -17,6 +33,8 @@ def get_employees(db: Session = Depends(get_session)):
 def update_employee(employee_id:int,employee:Employee , db: Session = Depends(get_session)):
     employee_to_update = db.query(models.Employee).filter(models.Employee.id==employee_id).first()
     employee_to_update.name = employee.name
+    employee_to_update.email = employee.email
+    employee_to_update.password = employee.password
     employee_to_update.iin = employee.iin
     employee_to_update.post = employee.post
 
@@ -25,14 +43,37 @@ def update_employee(employee_id:int,employee:Employee , db: Session = Depends(ge
     return employee_to_update
 
 
-@employee_router.post('/employeecreate', response_model=Employee)
+@employee_router.post('/signup', response_model=Employee)
 def post_employee(employee:Employee, db: Session = Depends(get_session)):
-    employee_to_post = models.Employee(**employee.dict())
+    db_email = db.query(models.Employee).filter(models.Employee.email==employee.email).first()
+    db_iin = db.query(models.Employee).filter(models.Employee.iin==employee.iin).first()
 
-    db.add(employee_to_post)
+
+    if db_email is not None:
+        return HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail = 'User with the email already exists'
+            )
+    
+    if db_iin is not None:
+        return HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail = 'User with the iin already exists'
+            )
+
+    new_employee = models.Employee(
+        id = employee.id,
+        name = employee.name,
+        email = employee.email,
+        password = generate_password_hash(employee.password),
+        iin = employee.iin,
+        post = employee.post
+    )
+
+    db.add(new_employee)
     db.commit()
 
-    return employee_to_post
+    return new_employee
 
 
 @employee_router.delete('/employee/{employee_id}')
@@ -45,3 +86,22 @@ def delete_employee(employee_id: int, db: Session = Depends(get_session)):
     return employee_to_delete
 
 
+@employee_router.post('/login')
+def login(employee: LoginModel, Authorize: AuthJWT=Depends(), db:Session = Depends(get_session)):
+    db_employee = db.query(models.Employee).filter(models.Employee.email==employee.email).first()
+
+    if db_employee and check_password_hash(db_employee.password,employee.password):
+        access_token = Authorize.create_access_token(subject=db_employee.email)
+        refresh_token = Authorize.create_refresh_token(subject=db_employee.email)
+
+        response = {
+            'access': access_token,
+            'refresh': refresh_token
+        }
+
+        return jsonable_encoder(response)
+    
+    else:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid email or password"
+        )

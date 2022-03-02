@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from dbsession import get_session
 
 
-items_router = APIRouter(prefix='/items')
+items_router = APIRouter(prefix='/items', tags=['items'])
 
 
 @items_router.get('/')

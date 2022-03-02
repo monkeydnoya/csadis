@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from dbsession import get_session
 
 
-reserve_router = APIRouter(prefix='/reserve')
+reserve_router = APIRouter(prefix='/reserve', tags=['reserve'])
 
 
 @reserve_router.get('/')

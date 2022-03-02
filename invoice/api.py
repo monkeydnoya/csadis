@@ -5,7 +5,7 @@ from dbsession import get_session
 from sqlalchemy.orm import Session
 
 
-invoice_router = APIRouter(prefix='/invoice')
+invoice_router = APIRouter(prefix='/invoice', tags=['invoice'])
 
 
 @invoice_router.get('/')
@@ -34,6 +34,7 @@ def update_invoice(invoice_id: int, invoice: Invoice, db: Session = Depends(get_
     invoice_to_update.status = invoice.status
     invoice_to_update.type = invoice.type
     invoice_to_update.description = invoice.description
+    invoice_to_update.warehouse = invoice.warehouse
     invoice_to_update.item = invoice.item
     invoice_to_update.count = invoice.count
 
