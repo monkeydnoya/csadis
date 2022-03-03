@@ -7,23 +7,29 @@ from sqlalchemy.orm import Session
 from werkzeug.security import generate_password_hash, check_password_hash
 from fastapi_jwt_auth import AuthJWT
 from fastapi.encoders import jsonable_encoder
+from log_config import get_logger
 
 
+employee_logger = get_logger(__name__)
 employee_router = APIRouter(prefix='/employee', tags=['employee'])
 
 @employee_router.get('/')
 def get_employees(Authorize: AuthJWT = Depends(),db: Session = Depends(get_session)):
     try:
         Authorize.jwt_required()
+        current_user = Authorize.get_jwt_subject()
+        employee_logger.info(f'Autorized as {current_user}')
+
     except Exception as e:
+        employee_logger.error('Invalid token')
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail='Invalid token')
 
-    current_user = Authorize.get_jwt_subject()
     current_user_access = db.query(models.Employee).filter(models.Employee.email==current_user).first()
     if current_user_access.post == 1:
         employees = db.query(models.Employee).all()
     
     else:
+        employee_logger.error(f'Insufficient access level. Current access level: {current_user_access.post}')
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail=f'Insufficient access level. Current access level: {current_user_access.post}')
 
     return employees
