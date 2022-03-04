@@ -5,9 +5,20 @@ def get_logger(name, level=logging.DEBUG) -> logging.Logger:
     TIME_FORMAT = "%d.%m.%Y %I:%M:%S %p"
 
     FILENAME = './log.log'
+    # FILENAME_SQLALCHEMY = './sqlalchemy.log'
+    # FILENAME_UVICORN = 'wlog/uvicorn.log'
 
-    logging.basicConfig(format=FORMAT, datefmt=TIME_FORMAT, level=level, filename=FILENAME
-    )
 
+    # if name == 'sqlalchemy.engine.Engine':
+    #     logging.basicConfig(format=FORMAT, datefmt=TIME_FORMAT, level=level, filename=FILENAME_UVICORN)
+    #     logger = logging.getLogger(name)
+
+    # # elif name == 'sqlalchemydsd':
+    # #     logging.basicConfig(format=FORMAT, datefmt=TIME_FORMAT, level=level, filename=FILENAME_SQLALCHEMY)
+    # #     logger = logging.getLogger(name)
+
+    # else:
+    logging.basicConfig(format=FORMAT, datefmt=TIME_FORMAT, level=level, filename=FILENAME)
     logger = logging.getLogger(name)
+
     return logger
