@@ -4,7 +4,7 @@
 
 1. Install PostgreSql (for the convenience of viewing the database, also install pgAdmin 4)
 2. Install Python (in this project used the version 3.9.7)
-3. Git clone the project with https://github.com/monkeydnoya/csadis
+3. Git clone the project with https://github.com/monkeydnoya/csadis.git
 4. Create your virtual environment and activate it
 5. Install the requirements with pip install -r requirements.txt
 6. Create new database or set up your own and change path to database url
